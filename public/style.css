@@ -1,15 +1,20 @@
 .container{
-    background-color: skyblue;
-    border-color: skyblue;
-    border-style: dotted;
+    background-color: blue;
+    color: blue!important;
 }
 h1,h2{
     text-align: center!important;
-    color: violet;
+    color: white;
 }
-h1{
-    color: blue!important;
-}
-#jumbotron{
-    background-color: lightblue;
+
+/* #jumbotron{
+    background-color: black;
+} */
+
+body{
+    color: white;
+    background-color: blue;
+    text-align: center;
+    border-style: dotted;
+    border-color: white;
 }
