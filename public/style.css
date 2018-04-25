@@ -1,0 +1,15 @@
+.container{
+    background-color: skyblue;
+    border-color: skyblue;
+    border-style: dotted;
+}
+h1,h2{
+    text-align: center!important;
+    color: violet;
+}
+h1{
+    color: blue!important;
+}
+#jumbotron{
+    background-color: lightblue;
+}
