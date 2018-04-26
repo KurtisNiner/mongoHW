@@ -2,11 +2,14 @@
     background-color: blue;
     color: blue!important;
 }
-h1,h2{
+h1{
     text-align: center!important;
     color: white;
 }
 
+h2{
+    color: purple!important;
+}
 /* #jumbotron{
     background-color: black;
 } */
@@ -15,6 +18,13 @@ body{
     color: white;
     background-color: blue;
     text-align: center;
-    border-style: dotted;
-    border-color: white;
 }
+
+#userCommentsBody, #saveComment{
+    color: black;
+}
+
+/* {
+    border-style: block;
+    border-color: grey;
+} */

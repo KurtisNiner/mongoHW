@@ -3,8 +3,12 @@ $.getJSON("/articles", function (data) {
   // For each one
   for (var i = 0; i < data.length; i++) {
     // Display the apropos information on the page
-    $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + data[i].summary + "<br />" + data[i].link + "</p>");
-    // createHTML();
+    $("#articles").append("<p data-id='" + 
+                    data[i]._id + "'>" + 
+                    data[i].title + "<br />" + 
+                    data[i].summary + "<br />"+ 
+                    data[i].link + "</p>");    
+                    // createHTML();
   }
 });
 
@@ -25,28 +29,29 @@ $(document).on("click", "p", function () {
   })
     // With that done, add the note information to the page
     .then(function (data) {
+
       console.log(data);
       // The title of the article
-      $("#comments").append("<h2>" + data.title + "</h2>");
-      // An input to enter a new title
-      $("#comments").append("<input id='userCommentsTitle' name='title'>");
+      $("#comments").append("<p>" + data.title + "</p>");
+
       // A textarea to add a new comment body
-      $("#comments").append("<textarea id='userCommentsBody' name='body'></textarea>");
+      $("#comments").append("<input id='userCommentsBody' name='commentBodyOutput'></input>");
+
       // A button to submit a new comment, with the id of the article saved to it
-      $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+      $("#comments").append("<button data-id='" + data._id + "' id='saveComment'>Save This Comment</button>");
 
       // If there's a comment in the article
       if (data.comment) {
-        // Place the title of the comment in the html
-        $("#userCommentsTitle").val(data.comment.title);
+
         // output the comment body in html
-        $("#userCommentsBody").val(data.comment.body);
+        $("#userCommentsBody").val(data.comment.commentBodyOutput);
       }
     });
 });
 
 // When you click the savecomment button
-$(document).on("click", "#savecomment", function () {
+$(document).on("click", "#saveComment", function () {
+
   // Grab the id associated with the article from the submit button
   var thisId = $(this).attr("data-id");
 
@@ -55,8 +60,7 @@ $(document).on("click", "#savecomment", function () {
     method: "POST",
     url: "/articles/" + thisId,
     data: {
-      // Value taken from title input
-      title: $("#userCommentsTitle").val(),
+   
       // Value taken from note textarea
       body: $("#userCommentsBody").val()
     }
@@ -66,11 +70,10 @@ $(document).on("click", "#savecomment", function () {
       // Log the response 
       // console.log(data);
       // Empty the comments section
-      $("#comments").empty();
+      $("#comments").val("");
     });
 
   // removed the values entered 
-  $("#userCommentsTitle").val("");
   $("#userCommentsBody").val("");
 });
 

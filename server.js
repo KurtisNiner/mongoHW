@@ -29,12 +29,20 @@ app.use(express.static("public"));
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
+
+
+ //drop the existing database so it clears out for new scrape
+ db.Article.remove({}, function(err){
+  console.log("dropped Articles");
+})
 // Routes
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
+  
   // First, we grab the body of the html with request
   axios.get("https://www.nytimes.com/").then(function (response) {
+
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
@@ -117,9 +125,11 @@ app.post("/articles/:id", function (req, res) {
         { new: true });
     })
     .then(function(dbArticle) {
+      
       // If we were able to successfully update an Article, send it back to the client
       res.json(dbArticle);
     })
+
     .catch(function (err) {
       // If an error occurred, send it to the client
       res.json(err);
