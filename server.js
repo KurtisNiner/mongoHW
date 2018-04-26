@@ -36,22 +36,24 @@ mongoose.connect(MONGODB_URI, {});
 //  db.Article.remove({}, function(err){
 //   console.log("dropped Articles");
 // })
+
 // Routes
 
-// A GET route for scraping the echoJS website
+// A GET route for scraping the new york tims website
 app.get("/scrape", function (req, res) {
 
   db.Article.remove({}, function (err) {
     console.log("dropped Articles");
   })
-  // First, we grab the body of the html with request
+  //grab new york times html
   axios.get("https://www.nytimes.com/").then(function (response) {
 
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
+//load into cheerio
     var $ = cheerio.load(response.data);
 
     // grab the h1 elements in the article
     $("article h1").each(function (i, element) {
+
       // Save an empty result object
       var result = {};
 
@@ -103,14 +105,19 @@ app.get("/articles", function (req, res) {
 
 // grab a specific article id, and populate the comments entered
 app.get("/articles/:id", function (req, res) {
+
   // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
   db.Article.findOne({ _id: req.params.id })
+
     // populate it with all comments associated
     .populate("comment")
+
     .then(function (dbArticle) {
+
       // if we find an article with the same id, show the user
       res.json(dbArticle);
     })
+
     .catch(function (err) {
       //show json of the error if it occurrs
       res.json(err);
@@ -119,6 +126,7 @@ app.get("/articles/:id", function (req, res) {
 
 // Route for saving/updating an Article's associated comment
 app.post("/articles/:id", function (req, res) {
+
   // Create a new note and pass the req.body to the entry
   db.Comment.create(req.body)
 
