@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 // creating CommentSchema Object
 var CommentSchema = new Schema({
   title: String,
-  body: String
+  body: String,
 });
 
 var Comment = mongoose.model("Comment", CommentSchema);

@@ -39,12 +39,15 @@ $(document).on("click", "p", function () {
 
       // A button to submit a new comment, with the id of the article saved to it
       $("#comments").append("<button data-id='" + data._id + "' id='saveComment'>Save This Comment</button>");
+      
 
       // If there's a comment in the article
       if (data.comment) {
-
+        // alert(JSON.stringify(data.comment, null, 2));
         // output the comment body in html
-        $("#userCommentsBody").val(data.comment.commentBodyOutput);
+        $("#comments").append("<p>" + data.comment.body + "</p>");
+        
+        // $("#userCommentsBody").val(data.comment.body);
       }
     });
 });
@@ -73,7 +76,7 @@ $(document).on("click", "#saveComment", function () {
       $("#comments").val("");
     });
 
-  // removed the values entered 
+  // 
   $("#userCommentsBody").val("");
 });
 

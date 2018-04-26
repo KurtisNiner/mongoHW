@@ -31,15 +31,18 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI);
 
 
- //drop the existing database so it clears out for new scrape
- db.Article.remove({}, function(err){
-  console.log("dropped Articles");
-})
+//drop the existing database so it clears out for new scrape
+//  db.Article.remove({}, function(err){
+//   console.log("dropped Articles");
+// })
 // Routes
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
-  
+
+  db.Article.remove({}, function (err) {
+    console.log("dropped Articles");
+  })
   // First, we grab the body of the html with request
   axios.get("https://www.nytimes.com/").then(function (response) {
 
@@ -68,6 +71,9 @@ app.get("/scrape", function (req, res) {
         .then(function (dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+
+          // If successful in scraping and saving the Artiles, sent this message to the user
+          res.send("We have successfully scraped the New York Times");
         })
         .catch(function (err) {
           // If an error occurred, send it to the client
@@ -75,9 +81,8 @@ app.get("/scrape", function (req, res) {
         });
     });
 
-    // If successful in scraping and saving the Artiles, sent this message to the user
-    res.send("We have successfully scraped the New York Times");
-  
+
+
   });
 });
 
@@ -116,16 +121,16 @@ app.post("/articles/:id", function (req, res) {
   // Create a new note and pass the req.body to the entry
   db.Comment.create(req.body)
 
-  //then pass the information through dbComment function
+    //then pass the information through dbComment function
     .then(function (dbComment) {
 
       return db.Article.findOneAndUpdate(
-        { _id: req.params.id },                       
-        { comment: dbComment._id }, 
+        { _id: req.params.id },
+        { comment: dbComment._id },
         { new: true });
     })
-    .then(function(dbArticle) {
-      
+    .then(function (dbArticle) {
+
       // If we were able to successfully update an Article, send it back to the client
       res.json(dbArticle);
     })
