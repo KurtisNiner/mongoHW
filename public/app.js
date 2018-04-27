@@ -43,6 +43,7 @@ $(document).on("click", "p", function () {
 
       // If there's a comment in the article
       if (data.comment) {
+
         // alert(JSON.stringify(data.comment, null, 2));
         // output the comment body in html
         $("#comments").append("<p>" + data.comment.body + "</p>");
@@ -64,15 +65,13 @@ $(document).on("click", "#saveComment", function () {
     url: "/articles/" + thisId,
     data: {
    
-      // Value taken from note textarea
+      // Value taken from comments input
       body: $("#userCommentsBody").val()
     }
   })
     // With that done
     .then(function (data) {
-      // Log the response 
-      // console.log(data);
-      // Empty the comments section
+      
       $("#comments").val("");
     });
 
